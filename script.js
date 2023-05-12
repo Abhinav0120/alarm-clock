@@ -14,8 +14,12 @@ const minuteDownArrow = document.querySelector('.minute-picker .arrow.down');
 const ampmUpArrow = document.querySelector('.ampm-picker .arrow.up');
 const ampmDownArrow = document.querySelector('.ampm-picker .arrow.down');
 
-// set Alarm button
+// set Alarm
+const timePicker = document.querySelector('.time-picker');
 const setAlarmBtn = document.getElementById('set-alarm');
+
+let alarmTime;
+let isAlarmSet = false;
 
 let selectedHour = 12;
 let selectedMinute = 0;
@@ -79,10 +83,30 @@ setInterval(()=>{
     m = m < 10 ? "0" + m : m;
     s = s < 10 ? "0" + s : s;
 
-    // console.log(`${h}:${m}:${s} ${ampm}`);
     currentTime.innerText = `${h}:${m}:${s} ${ampm}`;
 
+    if(alarmTime ==`${h}:${m} ${ampm}`){
+        console.log("Alarm ringing...");
+    }
+
 }, 1000);
+
+// Set Alarm function
+function setAlarm(){
+    if(isAlarmSet){
+        alarmTime = "";
+        timePicker.classList.remove("disable");
+        setAlarmBtn.innerText = "Set Alarm";
+        return isAlarmSet = false;
+    }
+
+    let time = `${hourInput.value}:${minuteInput.value} ${ampmInput.value}`;
+    isAlarmSet = true;
+    alarmTime = time;
+    timePicker.classList.add("disable");
+    setAlarmBtn.innerText = "Clear Alarm";
+    console.log(time);
+}
 
 
 // Handle Click Event
@@ -93,3 +117,4 @@ minuteDownArrow.addEventListener('click',decreaseMinute);
 ampmUpArrow.addEventListener('click', changeAmPm);
 ampmDownArrow.addEventListener('click', changeAmPm);
 
+setAlarmBtn.addEventListener('click', setAlarm);
