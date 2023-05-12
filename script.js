@@ -1,3 +1,6 @@
+// current time clock
+const currentTime = document.getElementById('curret-time-clock');
+
 // inputs
 const hourInput = document.querySelector('#hour');
 const minuteInput = document.querySelector('#minute');
@@ -10,6 +13,9 @@ const minuteUpArrow = document.querySelector('.minute-picker .arrow.up');
 const minuteDownArrow = document.querySelector('.minute-picker .arrow.down');
 const ampmUpArrow = document.querySelector('.ampm-picker .arrow.up');
 const ampmDownArrow = document.querySelector('.ampm-picker .arrow.down');
+
+// set Alarm button
+const setAlarmBtn = document.getElementById('set-alarm');
 
 let selectedHour = 12;
 let selectedMinute = 0;
@@ -54,6 +60,30 @@ function changeAmPm(){
     ampmInput.value = selectedAmPm;
 }
 
+// for Current time 
+setInterval(()=>{
+    let date = new Date();
+    h = date.getHours(),
+    m = date.getMinutes(),
+    s = date.getSeconds(),
+    ampm = "AM";
+
+    if(h >= 12){
+        h = h-12;
+        ampm = "PM";
+    }
+    //if hour value is 0, them set it's value to 12
+    h = h == 0 ? h = 12 : h;
+    // adding 0 before hr, min, sec if this value is less than 10
+    h = h < 10 ? "0" + h : h;
+    m = m < 10 ? "0" + m : m;
+    s = s < 10 ? "0" + s : s;
+
+    // console.log(`${h}:${m}:${s} ${ampm}`);
+    currentTime.innerText = `${h}:${m}:${s} ${ampm}`;
+
+}, 1000);
+
 
 // Handle Click Event
 hourUpArrow.addEventListener('click',increaseHour);
@@ -62,3 +92,4 @@ minuteUpArrow.addEventListener('click',increaseMinute);
 minuteDownArrow.addEventListener('click',decreaseMinute);
 ampmUpArrow.addEventListener('click', changeAmPm);
 ampmDownArrow.addEventListener('click', changeAmPm);
+
