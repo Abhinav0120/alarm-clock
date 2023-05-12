@@ -5,11 +5,79 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alarm</title>
+    <!-- Google Fonts -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+    </style>
+    <!-- fontawesome icons  -->
+    <script src="https://kit.fontawesome.com/c2bcdcc44a.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="alarm-clock">
-        
+        <h3>Current time</h3>
+        <h1>02:40:15 PM</h1>
+
+        <div class="alarm-header">
+            <h2>Set Alarm</h2>
+        </div>
+<!-- alarm body -->
+        <div class="alarm-body">
+            <div class="time-picker">
+
+                <div class="hour-picker">
+                    <div class="up-down-buttons">
+                        <div class="arrow up">
+                            <i class="fa-solid fa-caret-up"></i>
+                        </div>
+                        <div class="arrow down">
+                            <i class="fa-solid fa-caret-down"></i>
+                        </div>
+                    </div>
+                    <input type="text" id="hour" class="input" value="12" readonly>
+                </div>
+
+                <div class="minute-picker">
+                    <div class="up-down-buttons">
+                        <div class="arrow up">
+                            <i class="fa-solid fa-caret-up"></i>
+                        </div>
+                        <div class="arrow down">
+                            <i class="fa-solid fa-caret-down"></i>
+                        </div>
+                    </div>
+                    <input type="text" id="minute" class="input" value="00" readonly>
+                </div>
+
+                <div class="ampm-picker">
+                    <div class="up-down-buttons">
+                        <div class="arrow up">
+                            <i class="fa-solid fa-caret-up"></i>
+                        </div>
+                        <div class="arrow down">
+                            <i class="fa-solid fa-caret-down"></i>
+                        </div>
+                    </div>
+                    <input type="text" id="ampm" class="input" value="AM" readonly>
+                </div>
+
+            </div>
+        </div>
+<!-- alarm button -->
+        <div class="alarm-button">
+            <button class="set-alarm">Set Alarm</button>
+        </div>
+<!-- alarm's List -->
+        <div id="alarm-lists-wrapper">
+            <ul id="alarm-lists">
+                <li> 
+                    <span>
+                        12:00 AM
+                    </span>
+                    <i class="fa-solid fa-trash"></i>
+                </li>
+            </ul>
+        </div>
     </div>    
     <script type="text/javascript" src="script.js"></script>
 </body>

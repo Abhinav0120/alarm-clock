@@ -1,0 +1,58 @@
+#alarm-clock{
+    width: 400px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 20px auto;
+    font-family: 'Poppins', sans-serif;
+}
+
+.alarm-body {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+}
+
+/*----- time picker -----*/
+.time-picker {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.time-picker .hour-picker{
+    display: flex;
+}
+
+.time-picker .minute-picker{
+    display: flex;
+}
+
+.time-picker .ampm-picker{
+    display: flex;
+}
+
+.time-picker input{
+    width: 50px;
+    font-size: 1.5rem;
+    text-align: center;
+    font-family: inherit;
+}
+
+.time-picker .up-down-buttons{
+    margin-right: 10px;
+}
+
+.arrow i{
+    font-size: 1.6rem;
+}
+
+/*---- alarm-button ----*/
+.alarm-button .set-alarm{
+    margin-top: 30px;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 5px;
+    border-radius: 5px;
+}
