@@ -60,3 +60,11 @@
     padding: 5px;
     border-radius: 5px;
 }
+
+/* clear-alarm-container */
+
+#clear-alarm-container{
+    position: absolute;
+    background-color: grey;
+    display: none;
+}

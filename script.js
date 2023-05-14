@@ -1,3 +1,5 @@
+const alarmClock = document.getElementById('alarm-clock');
+
 // current time clock
 const currentTime = document.getElementById('curret-time-clock');
 
@@ -18,8 +20,12 @@ const ampmDownArrow = document.querySelector('.ampm-picker .arrow.down');
 const timePicker = document.querySelector('.time-picker');
 const setAlarmBtn = document.getElementById('set-alarm');
 
+// clear Alarm
+const clearAlarmContainer = document.getElementById('clear-alarm-container');
+const clearAlarmBtn = document.getElementById('clear-alarm');
+
 let alarmTime;
-let ringtone = new Audio("./assets/ring_tones/ringtone1.mp3");
+let ringtone = new Audio("./assets/ring_tones/ringtone2.mp3");
 // let isAlarmSet = false;
 let isAlarmRinging = false;
 
@@ -118,6 +124,39 @@ function addAlarm(alarm){
 
 }
 
+// Remove Clear Alarm Container
+function removeClearAlarmContainer(){
+    clearAlarmContainer.style.display = 'none';
+    // timePicker.classList.remove("disable");
+    alarmClock.classList.remove("disable");
+
+
+}
+
+// Display Clear Alarm Container 
+function displayClearAlarmContainer(){
+    clearAlarmContainer.style.display = 'block';
+    clearAlarmContainer.style.left = `${window.innerWidth/2-clearAlarmContainer.offsetWidth/2}px`;
+    clearAlarmContainer.style.top = '20px';
+    // timePicker.classList.add("disable");
+    alarmClock.classList.add("disable");
+
+}
+
+// Clear Alarm function
+function clearAlarm(){
+    if(isAlarmRinging){
+        ringtone.pause();
+        removeClearAlarmContainer();
+        console.log("Alarm Stoped...");
+        renderList();
+        // setAlarmBtn.innerText = "Set Alarm";
+        isAlarmRinging = false;
+        return;
+    }
+}
+
+
 // for Current time 
 setInterval(()=>{
     let date = new Date();
@@ -139,7 +178,7 @@ setInterval(()=>{
 
     currentTime.innerText = `${h}:${m}:${s} ${ampm}`;
 
-    // To check for alarm 
+    // To check for alarm
     for (const alarm of alarms_list) {
         if(alarm.time == `${h}:${m} ${ampm}` && !isAlarmRinging && !alarm.completed)
         {
@@ -147,16 +186,10 @@ setInterval(()=>{
             ringtone.play();
             ringtone.loop = true;
             isAlarmRinging = true;
-            setAlarmBtn.innerText = "Clear Alarm";
             alarm.completed = true;
+            displayClearAlarmContainer();
         }
     }
-
-    // if(alarmTime ==`${h}:${m} ${ampm}`){
-    //     console.log("Alarm ringing...");
-    //     ringtone.play();
-    //     ringtone.loop = true;
-    // }
 
 }, 1000);
 
@@ -169,14 +202,6 @@ function setAlarm(){
     //     setAlarmBtn.innerText = "Set Alarm";
     //     return isAlarmSet = false;
     // }
-
-    if(isAlarmRinging){
-        ringtone.pause();
-        console.log("Alarm ringing...");
-        setAlarmBtn.innerText = "Set Alarm";
-        isAlarmRinging = false;
-        return;
-    }
 
     let time = `${hourInput.value}:${minuteInput.value} ${ampmInput.value}`;
     // isAlarmSet = true;
@@ -208,3 +233,5 @@ ampmUpArrow.addEventListener('click', changeAmPm);
 ampmDownArrow.addEventListener('click', changeAmPm);
 
 setAlarmBtn.addEventListener('click', setAlarm);
+
+clearAlarmBtn.addEventListener('click', clearAlarm);
