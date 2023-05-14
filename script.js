@@ -19,11 +19,17 @@ const timePicker = document.querySelector('.time-picker');
 const setAlarmBtn = document.getElementById('set-alarm');
 
 let alarmTime;
-let isAlarmSet = false;
+let ringtone = new Audio("./assets/ring_tones/ringtone1.mp3");
+// let isAlarmSet = false;
+let isAlarmRinging = false;
 
 let selectedHour = 12;
 let selectedMinute = 0;
 let selectedAmPm = ampmInput.value;
+
+// Alarms List
+let alarms_list = [];
+const alarmLists = document.getElementById('alarm-lists');
 
 // Update the hour input field
 function updateHourInput(){
@@ -60,24 +66,72 @@ function decreaseMinute(){
 
 // Change Am Pm 
 function changeAmPm(){
-    selectedAmPm = selectedAmPm === 'AM'? selectedAmPm = 'PM': selectedAmPm = 'AM';
+    selectedAmPm = selectedAmPm === 'AM'? 'PM': 'AM';
     ampmInput.value = selectedAmPm;
+}
+
+// show notification function
+function showNotification(text){
+    alert(text);
+}
+
+// Check if alarm with same type already exist or not
+function isAlarmAlreadyExists(time){
+    for(const element of alarms_list){
+        if(element.time===time){
+            return true;
+        }
+    }
+    return false;
+}
+
+// Add Alarm To Dom
+function addAlarmToDom(alarm){
+    console.log('element:', alarm);
+    const li = document.createElement('li');
+    li.innerHTML = 
+        `<input type="checkbox" id="${alarm.id}" ${alarm.completed ? '' : 'checked'} class="custom-checkbox">
+        <label for="${alarm.id}">${alarm.time}</label>
+        <i class="fa-solid fa-trash" data-id="${alarm.id}"></i> `
+    alarmLists.append(li);
+}
+
+// render List function
+function renderList(){
+    alarmLists.innerHTML = '';
+
+    for(const alarm of alarms_list){
+        addAlarmToDom(alarm);
+    }
+}
+
+// Add alarm function
+function addAlarm(alarm){
+    if(alarm){
+        alarms_list.push(alarm);
+        console.log(alarms_list);
+        renderList();
+        showNotification('Alarm added successfully');
+        return;
+    }
+    showNotification('Alarm can not be added');
+
 }
 
 // for Current time 
 setInterval(()=>{
     let date = new Date();
-    h = date.getHours(),
-    m = date.getMinutes(),
-    s = date.getSeconds(),
-    ampm = "AM";
+    let h = date.getHours();
+    let m = date.getMinutes();
+    let s = date.getSeconds();
+    let ampm = "AM";
 
     if(h >= 12){
         h = h-12;
         ampm = "PM";
     }
     //if hour value is 0, them set it's value to 12
-    h = h == 0 ? h = 12 : h;
+    h = h == 0 ? 12 : h;
     // adding 0 before hr, min, sec if this value is less than 10
     h = h < 10 ? "0" + h : h;
     m = m < 10 ? "0" + m : m;
@@ -85,26 +139,62 @@ setInterval(()=>{
 
     currentTime.innerText = `${h}:${m}:${s} ${ampm}`;
 
-    if(alarmTime ==`${h}:${m} ${ampm}`){
-        console.log("Alarm ringing...");
+    // To check for alarm 
+    for (const alarm of alarms_list) {
+        if(alarm.time == `${h}:${m} ${ampm}` && !isAlarmRinging && !alarm.completed)
+        {
+            console.log("Alarm ringing...");
+            ringtone.play();
+            ringtone.loop = true;
+            isAlarmRinging = true;
+            setAlarmBtn.innerText = "Clear Alarm";
+            alarm.completed = true;
+        }
     }
+
+    // if(alarmTime ==`${h}:${m} ${ampm}`){
+    //     console.log("Alarm ringing...");
+    //     ringtone.play();
+    //     ringtone.loop = true;
+    // }
 
 }, 1000);
 
 // Set Alarm function
 function setAlarm(){
-    if(isAlarmSet){
-        alarmTime = "";
-        timePicker.classList.remove("disable");
+    // if(isAlarmSet){
+    //     alarmTime = "";
+    //     ringtone.pause();
+    //     timePicker.classList.remove("disable");
+    //     setAlarmBtn.innerText = "Set Alarm";
+    //     return isAlarmSet = false;
+    // }
+
+    if(isAlarmRinging){
+        ringtone.pause();
+        console.log("Alarm ringing...");
         setAlarmBtn.innerText = "Set Alarm";
-        return isAlarmSet = false;
+        isAlarmRinging = false;
+        return;
     }
 
     let time = `${hourInput.value}:${minuteInput.value} ${ampmInput.value}`;
-    isAlarmSet = true;
-    alarmTime = time;
-    timePicker.classList.add("disable");
-    setAlarmBtn.innerText = "Clear Alarm";
+    // isAlarmSet = true;
+    // alarmTime = time;
+    // timePicker.classList.add("disable");
+    // setAlarmBtn.innerText = "Clear Alarm";
+
+    const alarm = {
+        time : time,
+        id : Date.now,
+        completed : false
+    };
+
+    if(isAlarmAlreadyExists(time)){
+        showNotification("Alarm with same time already Exist");
+    }else{
+        addAlarm(alarm);
+    }
     console.log(time);
 }
 
