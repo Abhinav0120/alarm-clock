@@ -1,3 +1,7 @@
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
 #alarm-clock{
     width: 400px;
     border: 2px solid #ddd;
@@ -59,6 +63,7 @@
     font-size: 1rem;
     padding: 5px;
     border-radius: 5px;
+    border: none;
 }
 
 /* clear-alarm-container */
@@ -66,5 +71,27 @@
 #clear-alarm-container{
     position: absolute;
     background-color: grey;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 5px;
     display: none;
+}
+
+#clear-alarm-container h4{
+    font-family: inherit;
+}
+
+#clear-alarm-container .clear-alarm-time{
+    font-size: 1.8rem;
+    font-family: inherit;
+}
+
+#clear-alarm-container #clear-alarm{
+    font-size: 1.3rem;
+    border-radius: 5px;
+    border: none;
+    width: 150px;
+    padding: 5px;
 }

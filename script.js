@@ -23,6 +23,7 @@ const setAlarmBtn = document.getElementById('set-alarm');
 // clear Alarm
 const clearAlarmContainer = document.getElementById('clear-alarm-container');
 const clearAlarmBtn = document.getElementById('clear-alarm');
+const clearAlarmTimeText = document.querySelector('.clear-alarm-time');
 
 let alarmTime;
 let ringtone = new Audio("./assets/ring_tones/ringtone2.mp3");
@@ -98,7 +99,7 @@ function addAlarmToDom(alarm){
     li.innerHTML = 
         `<input type="checkbox" id="${alarm.id}" ${alarm.completed ? '' : 'checked'} class="custom-checkbox">
         <label for="${alarm.id}">${alarm.time}</label>
-        <i class="fa-solid fa-trash" data-id="${alarm.id}"></i> `
+        <i class="fa-solid fa-trash delete" data-id="${alarm.id}"></i> `
     alarmLists.append(li);
 }
 
@@ -135,7 +136,9 @@ function removeClearAlarmContainer(){
 
 // Display Clear Alarm Container 
 function displayClearAlarmContainer(){
-    clearAlarmContainer.style.display = 'block';
+
+    clearAlarmTimeText.innerText = alarmTime;
+    clearAlarmContainer.style.display = 'flex';
     clearAlarmContainer.style.left = `${window.innerWidth/2-clearAlarmContainer.offsetWidth/2}px`;
     clearAlarmContainer.style.top = '20px';
     // timePicker.classList.add("disable");
@@ -146,6 +149,7 @@ function displayClearAlarmContainer(){
 // Clear Alarm function
 function clearAlarm(){
     if(isAlarmRinging){
+        alarmTime = "";
         ringtone.pause();
         removeClearAlarmContainer();
         console.log("Alarm Stoped...");
@@ -155,6 +159,40 @@ function clearAlarm(){
         return;
     }
 }
+
+// Toogling the alarm to turn it of or on
+function toggleAlarm(alarmId){
+    const alarm1 = alarms_list.filter(function(alarm){
+        return alarm.id === Number(alarmId);
+    });
+
+    if(alarm1.length>0)
+    {
+        const currentAlarm = alarm1[0];
+        
+        currentAlarm.completed = !currentAlarm.completed;
+        renderList();
+        if(currentAlarm.completed){
+            showNotification("Alarm Turned Off!");
+        }else{
+            showNotification("Alarm Turned On!");
+        }
+        return;
+    }
+
+    showNotification("failed to turn off the alarm");
+}
+
+// Deleting Alarm function
+function deleteAlarm(alarmID){
+    const new_Alarms_list = alarms_list.filter(function(alarm){
+        return alarm.id != Number(alarmID);
+    });
+
+    alarms_list = new_Alarms_list;
+    renderList();
+    showNotification('Alarm Deleted Successfully');
+} 
 
 
 // for Current time 
@@ -187,6 +225,7 @@ setInterval(()=>{
             ringtone.loop = true;
             isAlarmRinging = true;
             alarm.completed = true;
+            alarmTime = alarm.time;
             displayClearAlarmContainer();
         }
     }
@@ -211,7 +250,7 @@ function setAlarm(){
 
     const alarm = {
         time : time,
-        id : Date.now,
+        id : Date.now(),
         completed : false
     };
 
@@ -220,7 +259,7 @@ function setAlarm(){
     }else{
         addAlarm(alarm);
     }
-    console.log(time);
+    // console.log(time);
 }
 
 
@@ -235,3 +274,17 @@ ampmDownArrow.addEventListener('click', changeAmPm);
 setAlarmBtn.addEventListener('click', setAlarm);
 
 clearAlarmBtn.addEventListener('click', clearAlarm);
+
+
+// Handle click Event Using Event Deligation
+alarmLists.addEventListener('click', function(event){
+    const target = event.target;
+    // console.log("Target",target);
+    if(target.classList == 'custom-checkbox'){
+        const alarmId = target.id;
+        toggleAlarm(alarmId);
+    }else if(target.classList.contains('delete')){
+        const alarmID = target.dataset.id;
+        deleteAlarm(alarmID);
+    }
+})
