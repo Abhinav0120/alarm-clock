@@ -7,6 +7,7 @@ const currentTime = document.getElementById('curret-time-clock');
 const hourInput = document.querySelector('#hour');
 const minuteInput = document.querySelector('#minute');
 const ampmInput = document.querySelector('#ampm');
+const dateInput = document.getElementById('dateInput');
 
 // arrows
 const hourUpArrow = document.querySelector('.hour-picker .arrow.up');
@@ -77,15 +78,22 @@ function changeAmPm(){
     ampmInput.value = selectedAmPm;
 }
 
+// function to set default date of Inputdate to current date
+function setDefaultDate(){
+    let currentDate = new Date().toISOString().slice(0,10);
+    dateInput.value = currentDate;
+}
+setDefaultDate();
+
 // show notification function
 function showNotification(text){
     alert(text);
 }
 
 // Check if alarm with same type already exist or not
-function isAlarmAlreadyExists(time){
+function isAlarmAlreadyExists(time, date){
     for(const element of alarms_list){
-        if(element.time===time){
+        if(element.time===time && element.date == date){
             return true;
         }
     }
@@ -98,7 +106,14 @@ function addAlarmToDom(alarm){
     const li = document.createElement('li');
     li.innerHTML = 
         `<input type="checkbox" id="${alarm.id}" ${alarm.completed ? '' : 'checked'} class="custom-checkbox">
-        <label for="${alarm.id}">${alarm.time}</label>
+        <label for="${alarm.id}">
+        <span>
+            ${alarm.time}
+        </span>
+        <span>
+            ${alarm.date}
+        </span>
+        </label>
         <i class="fa-solid fa-trash delete" data-id="${alarm.id}"></i> `
     alarmLists.append(li);
 }
@@ -128,7 +143,6 @@ function addAlarm(alarm){
 // Remove Clear Alarm Container
 function removeClearAlarmContainer(){
     clearAlarmContainer.style.display = 'none';
-    // timePicker.classList.remove("disable");
     alarmClock.classList.remove("disable");
 
 
@@ -141,7 +155,6 @@ function displayClearAlarmContainer(){
     clearAlarmContainer.style.display = 'flex';
     clearAlarmContainer.style.left = `${window.innerWidth/2-clearAlarmContainer.offsetWidth/2}px`;
     clearAlarmContainer.style.top = '20px';
-    // timePicker.classList.add("disable");
     alarmClock.classList.add("disable");
 
 }
@@ -154,7 +167,6 @@ function clearAlarm(){
         removeClearAlarmContainer();
         console.log("Alarm Stoped...");
         renderList();
-        // setAlarmBtn.innerText = "Set Alarm";
         isAlarmRinging = false;
         return;
     }
@@ -216,10 +228,19 @@ setInterval(()=>{
 
     currentTime.innerText = `${h}:${m}:${s} ${ampm}`;
 
+    let currentDate = new Date();
+    let year = currentDate.getFullYear();
+    let month = currentDate.getMonth() + 1;
+    let day = currentDate.getDate();
+    let currentDateValue = `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
+    
     // To check for alarm
     for (const alarm of alarms_list) {
-        if(alarm.time == `${h}:${m} ${ampm}` && !isAlarmRinging && !alarm.completed)
+        
+        if(alarm.time == `${h}:${m} ${ampm}` && currentDateValue === alarm.date && !isAlarmRinging && !alarm.completed)
         {
+            console.log('currentDate:',currentDateValue);
+            console.log('alarmDate',alarm.date);
             console.log("Alarm ringing...");
             ringtone.play();
             ringtone.loop = true;
@@ -234,32 +255,31 @@ setInterval(()=>{
 
 // Set Alarm function
 function setAlarm(){
-    // if(isAlarmSet){
-    //     alarmTime = "";
-    //     ringtone.pause();
-    //     timePicker.classList.remove("disable");
-    //     setAlarmBtn.innerText = "Set Alarm";
-    //     return isAlarmSet = false;
-    // }
-
     let time = `${hourInput.value}:${minuteInput.value} ${ampmInput.value}`;
-    // isAlarmSet = true;
-    // alarmTime = time;
-    // timePicker.classList.add("disable");
-    // setAlarmBtn.innerText = "Clear Alarm";
-
     const alarm = {
         time : time,
         id : Date.now(),
-        completed : false
+        completed : false,
+        date : dateInput.value
     };
 
-    if(isAlarmAlreadyExists(time)){
+    let currentDate = new Date();
+    let alarmDate = new Date(alarm.date);
+
+    // Set the time portion of both dates to 00:00:00 for accurate comparison
+    currentDate.setHours(0, 0, 0, 0);
+    alarmDate.setHours(0, 0, 0, 0);
+    console.log(currentDate);
+    console.log(alarmDate);
+
+    if(isAlarmAlreadyExists(time, alarm.date)){
         showNotification("Alarm with same time already Exist");
-    }else{
+    }else if(alarmDate < currentDate){
+        showNotification("Alarm date can not be earlier than cuurent date.");
+    }
+    else{
         addAlarm(alarm);
     }
-    // console.log(time);
 }
 
 

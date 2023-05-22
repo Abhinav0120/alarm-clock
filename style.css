@@ -13,6 +13,7 @@ body{
 
 .alarm-body {
     display: flex;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -21,7 +22,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
+    width: 60%;
 }
 
 .disable{
@@ -42,8 +43,9 @@ body{
 }
 
 .time-picker input{
-    width: 50px;
-    font-size: 1.5rem;
+    width: 40px;
+    height: 50px;
+    font-size: 1.4rem;
     text-align: center;
     font-family: inherit;
 }
@@ -54,6 +56,21 @@ body{
 
 .arrow i{
     font-size: 1.6rem;
+}
+
+/* date-picker */
+.date-picker{
+    width: 35%;
+}
+
+.date-picker input[type="date"] {
+    /* Your CSS properties here */
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: inherit;
+    height: 50px;
+    /* Add more styles as needed */
 }
 
 /*---- alarm-button ----*/
