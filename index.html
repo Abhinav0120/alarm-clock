@@ -15,73 +15,78 @@
 </head>
 <body>
     <div id="alarm-clock">
-        <h3>Current time</h3>
-        <h1 id="curret-time-clock">00:00:00 PM</h1>
-
-        <div class="alarm-header">
-            <h2>Set Alarm</h2>
+        <h3 id="current-time-header">Current time</h3>
+        <div id="current-time-body">
+            <h1 id="current-time-clock">00:00:00 PM</h1>
+            <i class="fa-regular fa-clock"></i>
         </div>
-<!-- alarm body -->
-        <div class="alarm-body">
-            <div class="time-picker">
-
-                <div class="hour-picker">
-                    <div class="up-down-buttons">
-                        <div class="arrow up">
-                            <i class="fa-solid fa-caret-up"></i>
+<!-- set Alarm -->
+        <div class="alarm-container">
+            <div class="alarm-header">
+                <h2>Set Alarm</h2>
+            </div>
+    <!-- alarm body -->
+            <div class="alarm-body">
+                <div class="time-picker">
+    
+                    <div class="hour-picker">
+                        <div class="up-down-buttons">
+                            <div class="arrow up">
+                                <i class="fa-solid fa-caret-up"></i>
+                            </div>
+                            <div class="arrow down">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
                         </div>
-                        <div class="arrow down">
-                            <i class="fa-solid fa-caret-down"></i>
-                        </div>
+                        <input type="text" id="hour" class="input" value="12" readonly>
                     </div>
-                    <input type="text" id="hour" class="input" value="12" readonly>
+    
+                    <div class="minute-picker">
+                        <div class="up-down-buttons">
+                            <div class="arrow up">
+                                <i class="fa-solid fa-caret-up"></i>
+                            </div>
+                            <div class="arrow down">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
+                        </div>
+                        <input type="text" id="minute" class="input" value="00" readonly>
+                    </div>
+    
+                    <div class="ampm-picker">
+                        <div class="up-down-buttons">
+                            <div class="arrow up">
+                                <i class="fa-solid fa-caret-up"></i>
+                            </div>
+                            <div class="arrow down">
+                                <i class="fa-solid fa-caret-down"></i>
+                            </div>
+                        </div>
+                        <input type="text" id="ampm" class="input" value="AM" readonly>
+                    </div>
                 </div>
-
-                <div class="minute-picker">
-                    <div class="up-down-buttons">
-                        <div class="arrow up">
-                            <i class="fa-solid fa-caret-up"></i>
-                        </div>
-                        <div class="arrow down">
-                            <i class="fa-solid fa-caret-down"></i>
-                        </div>
-                    </div>
-                    <input type="text" id="minute" class="input" value="00" readonly>
-                </div>
-
-                <div class="ampm-picker">
-                    <div class="up-down-buttons">
-                        <div class="arrow up">
-                            <i class="fa-solid fa-caret-up"></i>
-                        </div>
-                        <div class="arrow down">
-                            <i class="fa-solid fa-caret-down"></i>
-                        </div>
-                    </div>
-                    <input type="text" id="ampm" class="input" value="AM" readonly>
+                <div class="date-picker">
+                    <input type="date" id="dateInput" name="dateInput">
                 </div>
             </div>
-            <div class="date-picker">
-                <input type="date" id="dateInput" name="dateInput">
+    <!-- alarm button -->
+            <div class="alarm-button">
+                <button id="set-alarm">Set Alarm</button>
             </div>
-        </div>
-<!-- alarm button -->
-        <div class="alarm-button">
-            <button id="set-alarm">Set Alarm</button>
-        </div>
-<!-- alarm's List -->
-        <div id="alarm-lists-wrapper">
-            <ul id="alarm-lists">
-                <!-- <input type="checkbox" id="" ${alarm.completed ? '' : 'checked'} class="custom-checkbox">
-                <label for=""></label>
-                <i class="fa-solid fa-trash" data-id=""></i> -->
-            </ul>
+    <!-- alarm's List -->
+            <div id="alarm-lists-wrapper">
+                <ul id="alarm-lists">
+                    <!-- <input type="checkbox" id="" ${alarm.completed ? '' : 'checked'} class="custom-checkbox">
+                    <label for=""></label>
+                    <i class="fa-solid fa-trash" data-id=""></i> -->
+                </ul>
+            </div>
         </div>
     </div>
 
 <!-- clear Alarm -->
     <div id="clear-alarm-container">
-        <h3>Alarm</h3>
+        <h3 id="clear-alarm-heading">Alarm</h3>
         <span class="clear-alarm-time">00:00:00 PM</span>
         <button id="clear-alarm">Clear Alarm</button>
     </div>

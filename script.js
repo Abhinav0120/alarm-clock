@@ -1,7 +1,7 @@
 const alarmClock = document.getElementById('alarm-clock');
 
 // current time clock
-const currentTime = document.getElementById('curret-time-clock');
+const currentTime = document.getElementById('current-time-clock');
 
 // inputs
 const hourInput = document.querySelector('#hour');
@@ -106,13 +106,13 @@ function addAlarmToDom(alarm){
     const li = document.createElement('li');
     li.innerHTML = 
         `<input type="checkbox" id="${alarm.id}" ${alarm.completed ? '' : 'checked'} class="custom-checkbox">
-        <label for="${alarm.id}">
-        <span>
-            ${alarm.time}
-        </span>
-        <span>
-            ${alarm.date}
-        </span>
+        <label class="alarm-time" for="${alarm.id}">
+            <span>
+                ${alarm.time}
+            </span>
+            <span>
+                ${alarm.date}
+            </span>
         </label>
         <i class="fa-solid fa-trash delete" data-id="${alarm.id}"></i> `
     alarmLists.append(li);
@@ -154,7 +154,7 @@ function displayClearAlarmContainer(){
     clearAlarmTimeText.innerText = alarmTime;
     clearAlarmContainer.style.display = 'flex';
     clearAlarmContainer.style.left = `${window.innerWidth/2-clearAlarmContainer.offsetWidth/2}px`;
-    clearAlarmContainer.style.top = '20px';
+    clearAlarmContainer.style.top = '200px';
     alarmClock.classList.add("disable");
 
 }
