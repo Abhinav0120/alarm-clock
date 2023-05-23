@@ -102,10 +102,12 @@ function isAlarmAlreadyExists(time, date){
 
 // Add Alarm To Dom
 function addAlarmToDom(alarm){
-    console.log('element:', alarm);
     const li = document.createElement('li');
     li.innerHTML = 
         `<input type="checkbox" id="${alarm.id}" ${alarm.completed ? '' : 'checked'} class="custom-checkbox">
+        <label id="toggle-alarm" class="toggle" for="${alarm.id}">
+            <i class="${alarm.completed ? 'fa-solid fa-toggle-off' : 'fa-solid fa-toggle-on'}"></i>
+        </label>
         <label class="alarm-time" for="${alarm.id}">
             <span>
                 ${alarm.time}
@@ -131,7 +133,6 @@ function renderList(){
 function addAlarm(alarm){
     if(alarm){
         alarms_list.push(alarm);
-        console.log(alarms_list);
         renderList();
         showNotification('Alarm added successfully');
         return;
@@ -183,11 +184,20 @@ function toggleAlarm(alarmId){
         const currentAlarm = alarm1[0];
         
         currentAlarm.completed = !currentAlarm.completed;
+
+        // Toggle icon
+        // const toggleIcon = document.querySelector(`label[for="${currentAlarm.id}"] i`);
+        // console.log(toggleIcon);
+        
         renderList();
         if(currentAlarm.completed){
-            showNotification("Alarm Turned Off!");
+            // showNotification("Alarm Turned Off!");
+            // toggleIcon.classList.remove('fa-toggle-on');
+            // toggleIcon.classList.add('fa-toggle-off');
         }else{
-            showNotification("Alarm Turned On!");
+            // showNotification("Alarm Turned On!");
+            // toggleIcon.classList.remove('fa-toggle-off');
+            // toggleIcon.classList.add('fa-toggle-on');
         }
         return;
     }
@@ -269,8 +279,6 @@ function setAlarm(){
     // Set the time portion of both dates to 00:00:00 for accurate comparison
     currentDate.setHours(0, 0, 0, 0);
     alarmDate.setHours(0, 0, 0, 0);
-    console.log(currentDate);
-    console.log(alarmDate);
 
     if(isAlarmAlreadyExists(time, alarm.date)){
         showNotification("Alarm with same time already Exist");
@@ -299,7 +307,6 @@ clearAlarmBtn.addEventListener('click', clearAlarm);
 // Handle click Event Using Event Deligation
 alarmLists.addEventListener('click', function(event){
     const target = event.target;
-    // console.log("Target",target);
     if(target.classList == 'custom-checkbox'){
         const alarmId = target.id;
         toggleAlarm(alarmId);
