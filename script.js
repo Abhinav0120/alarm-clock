@@ -1,35 +1,32 @@
+
+// getting required Elements
 const alarmClock = document.getElementById('alarm-clock');
-
-// current time clock
 const currentTime = document.getElementById('current-time-clock');
-
-// inputs
 const hourInput = document.querySelector('#hour');
 const minuteInput = document.querySelector('#minute');
 const ampmInput = document.querySelector('#ampm');
 const dateInput = document.getElementById('dateInput');
-
-// arrows
 const hourUpArrow = document.querySelector('.hour-picker .arrow.up');
 const hourDownArrow = document.querySelector('.hour-picker .arrow.down');
 const minuteUpArrow = document.querySelector('.minute-picker .arrow.up');
 const minuteDownArrow = document.querySelector('.minute-picker .arrow.down');
 const ampmUpArrow = document.querySelector('.ampm-picker .arrow.up');
 const ampmDownArrow = document.querySelector('.ampm-picker .arrow.down');
-
-// set Alarm
 const timePicker = document.querySelector('.time-picker');
 const setAlarmBtn = document.getElementById('set-alarm');
-
-// clear Alarm
 const clearAlarmContainer = document.getElementById('clear-alarm-container');
 const clearAlarmBtn = document.getElementById('clear-alarm');
 const clearAlarmTimeText = document.querySelector('.clear-alarm-time');
 
+
+// Global variables required
 let alarmTime;
 let ringtone = new Audio("./assets/ring_tones/ringtone2.mp3");
-// let isAlarmSet = false;
 let isAlarmRinging = false;
+
+const audio1 = new Audio('assets/click_sound/clickSound1.wav');
+const audio2 = new Audio('assets/click_sound/clickSound2.wav');
+
 
 let selectedHour = 12;
 let selectedMinute = 0;
@@ -39,6 +36,7 @@ let selectedAmPm = ampmInput.value;
 let alarms_list = [];
 const alarmLists = document.getElementById('alarm-lists');
 
+// All required functions
 // Update the hour input field
 function updateHourInput(){
     hourInput.value = selectedHour < 10 ? '0'+ selectedHour: selectedHour;
@@ -51,30 +49,35 @@ function updateMinuteInput() {
 // Increase Selected Hour by 1
 function increaseHour(){
     selectedHour = selectedHour < 12 ? selectedHour+1 : 1;
+    audio2.play();
     updateHourInput(); 
 }
 
 // Decrease Selected Hour by 1
 function decreaseHour(){
     selectedHour = selectedHour > 1 ? selectedHour-1 : 12;
+    audio2.play();
     updateHourInput();
 }
 
 // Increase Selected Minute by 1
 function increaseMinute(){
     selectedMinute = selectedMinute < 59 ? selectedMinute+1 : 0;
+    audio2.play();
     updateMinuteInput()
 } 
 
 // Decrease Selected Minute by 1
 function decreaseMinute(){
     selectedMinute = selectedMinute > 0 ? selectedMinute-1 : 59;
+    audio2.play();
     updateMinuteInput();
 }
 
 // Change Am Pm 
 function changeAmPm(){
     selectedAmPm = selectedAmPm === 'AM'? 'PM': 'AM';
+    audio2.play();
     ampmInput.value = selectedAmPm;
 }
 
@@ -138,15 +141,12 @@ function addAlarm(alarm){
         return;
     }
     showNotification('Alarm can not be added');
-
 }
 
 // Remove Clear Alarm Container
 function removeClearAlarmContainer(){
     clearAlarmContainer.style.display = 'none';
     alarmClock.classList.remove("disable");
-
-
 }
 
 // Display Clear Alarm Container 
@@ -157,7 +157,6 @@ function displayClearAlarmContainer(){
     clearAlarmContainer.style.left = `${window.innerWidth/2-clearAlarmContainer.offsetWidth/2}px`;
     clearAlarmContainer.style.top = '200px';
     alarmClock.classList.add("disable");
-
 }
 
 // Clear Alarm function
@@ -182,26 +181,10 @@ function toggleAlarm(alarmId){
     if(alarm1.length>0)
     {
         const currentAlarm = alarm1[0];
-        
         currentAlarm.completed = !currentAlarm.completed;
-
-        // Toggle icon
-        // const toggleIcon = document.querySelector(`label[for="${currentAlarm.id}"] i`);
-        // console.log(toggleIcon);
-        
         renderList();
-        if(currentAlarm.completed){
-            // showNotification("Alarm Turned Off!");
-            // toggleIcon.classList.remove('fa-toggle-on');
-            // toggleIcon.classList.add('fa-toggle-off');
-        }else{
-            // showNotification("Alarm Turned On!");
-            // toggleIcon.classList.remove('fa-toggle-off');
-            // toggleIcon.classList.add('fa-toggle-on');
-        }
         return;
     }
-
     showNotification("failed to turn off the alarm");
 }
 
@@ -260,7 +243,6 @@ setInterval(()=>{
             displayClearAlarmContainer();
         }
     }
-
 }, 1000);
 
 // Set Alarm function
@@ -273,13 +255,15 @@ function setAlarm(){
         date : dateInput.value
     };
 
+    audio1.play();
+
     let currentDate = new Date();
     let alarmDate = new Date(alarm.date);
 
     // Set the time portion of both dates to 00:00:00 for accurate comparison
     currentDate.setHours(0, 0, 0, 0);
     alarmDate.setHours(0, 0, 0, 0);
-
+    
     if(isAlarmAlreadyExists(time, alarm.date)){
         showNotification("Alarm with same time already Exist");
     }else if(alarmDate < currentDate){
@@ -300,7 +284,6 @@ ampmUpArrow.addEventListener('click', changeAmPm);
 ampmDownArrow.addEventListener('click', changeAmPm);
 
 setAlarmBtn.addEventListener('click', setAlarm);
-
 clearAlarmBtn.addEventListener('click', clearAlarm);
 
 
