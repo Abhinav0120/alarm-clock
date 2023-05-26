@@ -262,7 +262,7 @@ function setAlarm(){
         date : dateInput.value,
         ringtone : ringtone,
     };
-
+    ringtone = new Audio("./assets/ring_tones/ringtone2.mp3");
     audio1.play();
 
     let currentDate = new Date();
