@@ -3,13 +3,16 @@ body{
 }
 
 #alarm-clock{
-    width: 420px;
+    max-width: 350px;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
     border: 2px solid #ddd;
     border-radius: 15px;
     margin: 20px auto;
     font-family: 'Poppins', sans-serif;
     background-color: black;
-    color: rgb(199, 152, 152)
+    color: rgb(199, 152, 152);
 }
 
 
@@ -49,8 +52,10 @@ body{
 
 .alarm-body {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: center;
+    /* padding: 10px; */
+    /* align-items: center; */
 }
 
 .alarm-header{
@@ -63,7 +68,8 @@ body{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 56%;
+    margin-bottom: 15px;
+    width: 100%;
 }
 
 .disable{
@@ -90,14 +96,14 @@ body{
 }
 
 .time-picker input{
-    width: 40px;
-    height: 50px;
-    font-size: 1.4rem;
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
     text-align: center;
     font-family: inherit;
     background-color: rgb(48, 41, 41);
     color: rgb(52, 175, 165);
-
+    font-weight: 500;
     border: none;
     border-radius: 10px;
 }
@@ -110,29 +116,35 @@ body{
 }
 
 .arrow i{
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     cursor: pointer;
 }
 
 /*--- date-picker ---*/
 .date-picker{
-    width: 40%;
+    width: 100%;
 }
 
 .date-picker input[type="date"] {
-    padding: 0px 5px 0px 5px;
+    padding: 0px 5% 0px 5%;
+    width: 90%;
     border: none;
     border-radius: 10px;
     font-family: inherit;
     height: 50px;
     background-color: rgb(48, 41, 41);
     color: rgb(52, 175, 165);
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     font-weight: 500;
+
 }
 
 /*---- alarm-button ----*/
-.alarm-button #set-alarm{
+.alarm-button{
+    display: flex;
+    justify-content: space-between;
+}
+.alarm-button label{
     font-family: inherit;
     font-size: 1.2rem;
     font-weight: 500;
@@ -140,8 +152,25 @@ body{
     border-radius: 10px;
     border: none;
     background-color: rgb(46, 43, 43);
-    color: rgb(248, 210, 210);
-    margin-top: 30px;
+    color: rgb(52, 175, 165);
+    margin-top: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+.alarm-button #ringtone{
+    display: none;
+}
+.alarm-button #set-alarm{
+    font-family: inherit;
+    font-size: 1.2rem;
+    font-weight: 500;
+    padding: 10px;
+    border-radius: 25px;
+    border: none;
+    /* background-color: rgb(40, 200, 186); */
+    /* color: rgb(248, 210, 210); */
+    color: rgb(46, 43, 43);
+    margin-top: 10px;
     margin-bottom: 20px;
     cursor: pointer;
 }

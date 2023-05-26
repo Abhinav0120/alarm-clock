@@ -17,12 +17,15 @@ const setAlarmBtn = document.getElementById('set-alarm');
 const clearAlarmContainer = document.getElementById('clear-alarm-container');
 const clearAlarmBtn = document.getElementById('clear-alarm');
 const clearAlarmTimeText = document.querySelector('.clear-alarm-time');
+var ringtoneInput = document.getElementById("ringtone");
 
 
 // Global variables required
 let alarmTime;
+let currentPlayingAlarm;
 let ringtone = new Audio("./assets/ring_tones/ringtone2.mp3");
 let isAlarmRinging = false;
+let file = undefined;
 
 const audio1 = new Audio('assets/click_sound/clickSound1.wav');
 const audio2 = new Audio('assets/click_sound/clickSound2.wav');
@@ -163,8 +166,11 @@ function displayClearAlarmContainer(){
 function clearAlarm(){
     if(isAlarmRinging){
         alarmTime = "";
-        ringtone.pause();
+        currentPlayingAlarm.ringtone.pause();
+        currentPlayingAlarm = null;
         removeClearAlarmContainer();
+        ringtone = new Audio("./assets/ring_tones/ringtone2.mp3");
+        // ringtoneInput.innerHTML = "Choose file";
         console.log("Alarm Stoped...");
         renderList();
         isAlarmRinging = false;
@@ -235,11 +241,12 @@ setInterval(()=>{
             console.log('currentDate:',currentDateValue);
             console.log('alarmDate',alarm.date);
             console.log("Alarm ringing...");
-            ringtone.play();
-            ringtone.loop = true;
+            alarm.ringtone.play();
+            alarm.ringtone.loop = true;
             isAlarmRinging = true;
             alarm.completed = true;
             alarmTime = alarm.time;
+            currentPlayingAlarm = alarm;
             displayClearAlarmContainer();
         }
     }
@@ -252,7 +259,8 @@ function setAlarm(){
         time : time,
         id : Date.now(),
         completed : false,
-        date : dateInput.value
+        date : dateInput.value,
+        ringtone : ringtone,
     };
 
     audio1.play();
@@ -285,6 +293,12 @@ ampmDownArrow.addEventListener('click', changeAmPm);
 
 setAlarmBtn.addEventListener('click', setAlarm);
 clearAlarmBtn.addEventListener('click', clearAlarm);
+ringtoneInput.addEventListener("change", function(event) {
+    const file = event.target.files[0];
+    console.log("file",file);
+    ringtone = new Audio(URL.createObjectURL(file)); // Create an Audio object with the selected file
+    showNotification("Alarm Rigtone is set!");
+});
 
 
 // Handle click Event Using Event Deligation
