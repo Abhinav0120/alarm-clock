@@ -169,8 +169,7 @@ function clearAlarm(){
         currentPlayingAlarm.ringtone.pause();
         currentPlayingAlarm = null;
         removeClearAlarmContainer();
-        ringtone = new Audio("./assets/ring_tones/ringtone2.mp3");
-        // ringtoneInput.innerHTML = "Choose file";
+       
         console.log("Alarm Stoped...");
         renderList();
         isAlarmRinging = false;
@@ -262,7 +261,7 @@ function setAlarm(){
         date : dateInput.value,
         ringtone : ringtone,
     };
-    ringtone = new Audio("./assets/ring_tones/ringtone2.mp3");
+
     audio1.play();
 
     let currentDate = new Date();
@@ -279,6 +278,8 @@ function setAlarm(){
     }
     else{
         addAlarm(alarm);
+        ringtone = new Audio("./assets/ring_tones/ringtone2.mp3");
+        ringtoneInput.value = "";
     }
 }
 
